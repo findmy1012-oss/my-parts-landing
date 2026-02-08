@@ -143,39 +143,46 @@
             user: tg.initDataUnsafe?.user || {},
             initData: tg.initData
         };
+<script>
+/* отримуємо форму */
+const form = document.getElementById("orderForm");
 
-        try {
-            // Заміни на URL свого бота або API
-            const response = await fetch("https://script.google.com/macros/s/AKfycbymrqqRi75HzKhfi02ZNamutUV0JsZ0MQ1UdqyIZa93G6VFTKcwIq-28WA8PG6-N6g/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+/* перемикання активної кнопки послуги */
+function selectType(type) {
+    const buttons = document.querySelectorAll(".service-btn");
+    buttons.forEach(btn => btn.classList.remove("active"));
 
-          if (response.ok) {
-                // Перевірка: ми в Telegram чи у звичайному браузері?
-                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
-                    tg.showConfirm("Заявка прийнята! Менеджер зв'яжеться з вами.", () => {
-                        tg.close();
-                    });
-               } else {
-                alert("Заявка прийнята! Менеджер зв'яжеться з вами.");
-                location.reload(); 
-            }
-        } else {
-            throw new Error();
-        }
-    } catch (e) {
-        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
-            tg.showAlert("Помилка відправки. Спробуйте пізніше.");
-        } else {
-            alert("Помилка відправки. Спробуйте пізніше.");
-        }
-        btn.disabled = false;
-        btn.innerText = "Надіслати заявку";}
-            });
+    const activeBtn = document.getElementById(type);
+    if (activeBtn) {
+        activeBtn.classList.add("active");
+    }
+
+    document.getElementById("serviceType").value = type;
+}
+
+/* відправка форми */
+form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+        await fetch('https://script.google.com/macros/s/AKfycbxmODGZb5uR_ui1TcBI_ock6d9l6BeHzGRJuRgRmNKjTRnI5vNfKww4PF1Ef3AVnInM/exec', {   //findmy1012-oss.github.io/my-parts-landing/ ← ВСТАВ СЮДИ URL GOOGLE SCRIPT
+            method: "POST",
+            mode: "no-cors",
+            body: formData
+        });
+
+        alert("Заявка прийнята!");
+        location.reload();
+
+    } catch (error) {
+        alert("Помилка відправки. Спробуйте ще раз.");
+        console.error(error);
+    }
+});
 </script>
+
 </body>
 </html>
-
 
