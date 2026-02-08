@@ -152,22 +152,31 @@
                 body: JSON.stringify(payload)
             });
 
-            if (response.ok) {
-                tg.showConfirm("Заявка прийнята! Менеджер зв'яжеться з вами.", () => {
-                    tg.close();
-                });
+          if (response.ok) {
+                // Перевірка: ми в Telegram чи у звичайному браузері?
+                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
+                    tg.showConfirm("Заявка прийнята! Менеджер зв'яжеться з вами.", () => {
+                        tg.close();
+                    });
+                } else {
+                    alert("Заявка прийнята! Менеджер зв'яжеться з вами.");
+                    location.reload(); // Перезавантаження сторінки для очищення форми
+                }
             } else {
                 throw new Error();
             }
         } catch (e) {
-            tg.showAlert("Помилка відправки. Спробуйте пізніше.");
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
+                tg.showAlert("Помилка відправки. Спробуйте пізніше.");
+            } else {
+                alert("Помилка відправки. Спробуйте пізніше.");
+            }
             btn.disabled = false;
             btn.innerText = "Надіслати заявку";
+    btn.innerText = "Надіслати заявку";
         }
-    }
+    });
 </script>
 </body>
-
 </html>
-
 
