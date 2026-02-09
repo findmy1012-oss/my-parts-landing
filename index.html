@@ -126,7 +126,7 @@ form.addEventListener("submit", async function(e){
     const formData = new FormData(form);
 
     try{
-        await fetch('', {   // ← ВСТАВ СЮДИ URL GOOGLE SCRIPT
+        await fetch('https://script.google.com/macros/s/AKfycbyjNwLVaX2ONS4x_i2dhTDhp0OslWWbEeq4QWH-_uZElmo3Ei3iYlVHd_53Er8rRlv1/exec', {   // ← ВСТАВ СЮДИ URL GOOGLE SCRIPT
             method:'POST',
             mode:'no-cors',
             body: formData
@@ -144,3 +144,4 @@ form.addEventListener("submit", async function(e){
 
 </body>
 </html>
+
